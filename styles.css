@@ -1,0 +1,11 @@
+.filter_teacherprofile .teacherinfo {
+    display: flex;
+}
+.filter_teacherprofile .teacherinfo .teacherinfo-picture img {
+    border-radius: 50%;
+    width: 75px;
+    height: 75px;
+}
+.filter_teacherprofile .teacherinfo .teacherinfo-description {
+    margin-left: 1rem;
+}
