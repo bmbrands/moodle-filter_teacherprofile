@@ -30,3 +30,5 @@ $string['teacherprofile'] = 'Meet the course tutor';
 $string['privacy:metadata'] = 'The Teacherprofile plugin doesn\'t store any personal data.';
 $string['tqs'] = 'Teacher Quality Standard';
 $string['tqs_desc'] = 'The Teacher Quality Standard custom profile field name';
+$string['teacherprofilecustomrole'] = 'Teacher profile custom role';
+$string['teacherprofilecustomrole_desc'] = 'The custom role name for the teacher profile.';

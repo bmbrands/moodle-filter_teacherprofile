@@ -22,11 +22,17 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
- defined('MOODLE_INTERNAL') || die;
+defined('MOODLE_INTERNAL') || die;
 
 if ($hassiteconfig) {
     // Home server URL.
     $name = new lang_string('tqs', 'filter_teacherprofile');
     $desc = new lang_string('tqs_desc', 'filter_teacherprofile');
     $settings->add(new admin_setting_configtext('filter_teacherprofile/tqs', $name, $desc, ''));
+
+    // Custom role for teacher profile.
+    $name = new lang_string('teacherprofilecustomrole', 'filter_teacherprofile');
+    $desc = new lang_string('teacherprofilecustomrole_desc', 'filter_teacherprofile');
+    $settings->add(new admin_setting_configtext('filter_teacherprofile/teacherprofilecustomrole', $name, $desc, ''));
+
 }

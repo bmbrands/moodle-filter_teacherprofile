@@ -18,6 +18,7 @@ namespace filter_teacherprofile;
 
 use core_user;
 use moodle_url;
+use stdClass;
 
 /**
  * Class text_filter
@@ -74,6 +75,17 @@ class text_filter extends \core_filters\text_filter {
     }
 
     /**
+     * Get the role id from a shortname.
+     *
+     * @param string $shortname the role shortname.
+     * @return stdClass the role from the DB.
+     */
+    protected static function get_role(string $shortname): stdClass {
+        global $DB;
+        return $DB->get_record('role', ['shortname' => $shortname]);
+    }
+
+    /**
      * Get the first teacher id for this course.
      * @return int|null
      */
@@ -82,6 +94,24 @@ class text_filter extends \core_filters\text_filter {
         $coursectx = \context_course::instance($COURSE->id);
         if (!$coursectx) {
             return null;
+        }
+        // Check if the course has a custom role for the teacher profile.
+        $customrole = get_config('filter_teacherprofile', 'teacherprofilecustomrole');
+        if (!empty($customrole)) {
+            // Get the role by name.
+            $role = self::get_role($customrole);
+            if ($role) {
+                // Get the users with this role in the course context.
+                $userfieldsapi = \core_user\fields::for_name();
+                $userfields = 'u.id, u.username' . $userfieldsapi->get_sql('u')->selects;
+                $teachers = get_role_users($role->id, $coursectx, false, $userfields);
+                if (empty($teachers)) {
+                    return null;
+                }
+                // Get the first teacher.
+                $teacher = reset($teachers);
+                return $teacher->id ?? null;
+            }
         }
         // Teachers
         $teachers = get_enrolled_users($coursectx, 'moodle/course:changefullname');
